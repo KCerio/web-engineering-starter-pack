@@ -25,13 +25,13 @@ class PhysicalLayer:
             self.client_socket.sendall(data)  
 
     def receive(self):
-        if not self.is_server:
-            raise RuntimeError("Receive should only be called on the server! Naur")
-
-        self.client_socket, addr = self.socket.accept()
-        print(f"Connection established with {addr}")
-        data = self.client_socket.recv(1024)
-        return data
+        if self.is_server:
+            self.client_socket, addr = self.socket.accept()
+            print(f"Connection established with {addr}")
+            data = self.client_socket.recv(1024)
+            return data
+        else:
+            return self.socket.recv(1024)
 
 
 # Data Link Layer: Implements a MAC addressing system and frame transmission.
